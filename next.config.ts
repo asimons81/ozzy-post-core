@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  images: {
-    unoptimized: true,
-  },
+  // output: 'export', // Removed: Post Core requires a database for Server Actions
   experimental: {
     webpackBuildWorker: false,
     workerThreads: false,
