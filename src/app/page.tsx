@@ -43,14 +43,14 @@ export default async function DashboardHUD() {
             </h1>
           </div>
           
-          <div className="flex items-center gap-4">
-            <nav className="hidden md:flex items-center gap-2 bg-[#0f1012] border border-[#2a2c31] p-1 rounded-lg mr-4">
-                <a href="https://brain.tonyreviewsthings.com" className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-[#70757a] hover:text-[#4fb7a0] transition-colors">🧠 Brain</a>
-                <a href="https://post.tonyreviewsthings.com" className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-[#4fb7a0] bg-[#4fb7a0]/10 rounded-md">📊 Analytics</a>
-                <a href="https://amplify.tonyreviewsthings.com" className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-[#70757a] hover:text-[#4fb7a0] transition-colors">⚡ Amplify</a>
-                <a href="https://status.tonyreviewsthings.com" className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-[#70757a] hover:text-[#4fb7a0] transition-colors">🛡️ Status</a>
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+            <nav className="flex items-center gap-2 bg-[#0f1012] border border-[#2a2c31] p-1 rounded-lg">
+                <a href="https://brain.tonyreviewsthings.com" className="px-3 md:px-4 py-2 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-[#70757a] hover:text-[#4fb7a0] transition-colors">🧠 Brain</a>
+                <a href="https://post.tonyreviewsthings.com" className="px-3 md:px-4 py-2 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-[#4fb7a0] bg-[#4fb7a0]/10 rounded-md">📊 Analytics</a>
+                <a href="https://amplify.tonyreviewsthings.com" className="px-3 md:px-4 py-2 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-[#70757a] hover:text-[#4fb7a0] transition-colors">⚡ Amplify</a>
+                <a href="https://status.tonyreviewsthings.com" className="px-3 md:px-4 py-2 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-[#70757a] hover:text-[#4fb7a0] transition-colors">🛡️ Status</a>
             </nav>
-            <Link href="/import" className="flex items-center gap-2 bg-[#0f1012] border border-[#2a2c31] hover:border-[#4fb7a0]/50 text-white font-bold px-6 py-3 rounded-lg uppercase tracking-widest text-xs transition-all active:scale-95">
+            <Link href="/import" className="flex items-center gap-2 bg-[#0f1012] border border-[#2a2c31] hover:border-[#4fb7a0]/50 text-white font-bold px-6 py-3 rounded-lg uppercase tracking-widest text-xs transition-all active:scale-95 w-full md:w-auto justify-center">
               <Database size={16} className="text-[#4fb7a0]" />
               Neural Ingest
             </Link>
