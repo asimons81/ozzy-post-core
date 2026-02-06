@@ -1,0 +1,117 @@
+// Prisma schema for x-amplify-web
+// Provider: PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid()) @db.Uuid
+  username   String   @unique
+  timezone   String   @default("America/Chicago")
+  created_at DateTime @default(now())
+
+  posts   Post[]
+  imports Import[]
+
+  @@index([created_at])
+}
+
+model Import {
+  id           String   @id @default(uuid()) @db.Uuid
+  user_id      String   @db.Uuid
+  filename     String
+  imported_at  DateTime @default(now())
+  source_label String
+  row_count    Int
+  notes        String?
+
+  user              User              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  metricsSnapshots  MetricsSnapshot[]
+
+  @@index([user_id])
+  @@index([imported_at])
+}
+
+model Post {
+  id            String   @id @default(uuid()) @db.Uuid
+  user_id       String   @db.Uuid
+  x_post_id     String   @unique
+  text          String
+  created_at    DateTime
+  deleted_at    DateTime?
+  char_count    Int      @default(0)
+  word_count    Int      @default(0)
+  hashtag_count Int      @default(0)
+  mention_count Int      @default(0)
+  has_link      Boolean  @default(false)
+  has_media     Boolean  @default(false)
+  format_tag    String?
+
+  user             User              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  metricsSnapshots MetricsSnapshot[]
+  postExperiments  PostExperiment[]
+
+  @@index([user_id])
+  @@index([created_at])
+  @@index([deleted_at])
+}
+
+model MetricsSnapshot {
+  id              String   @id @default(uuid()) @db.Uuid
+  post_id         String   @db.Uuid
+  import_id       String   @db.Uuid
+  captured_at     DateTime @default(now())
+  like_count      Int      @default(0)
+  repost_count    Int      @default(0)
+  reply_count     Int      @default(0)
+  quote_count     Int      @default(0)
+  impression_count Int     @default(0)
+  clicks          Int      @default(0)
+  engagement_rate Float    @default(0)
+
+  post   Post   @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  import Import @relation(fields: [import_id], references: [id], onDelete: Cascade)
+
+  @@index([post_id, captured_at])
+  @@index([import_id, captured_at])
+}
+
+model Experiment {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  description String?
+  created_at  DateTime @default(now())
+
+  postExperiments PostExperiment[]
+
+  @@index([created_at])
+}
+
+model PostExperiment {
+  post_id       String @db.Uuid
+  experiment_id String @db.Uuid
+
+  post       Post       @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  experiment Experiment @relation(fields: [experiment_id], references: [id], onDelete: Cascade)
+
+  @@id([post_id, experiment_id])
+  @@index([experiment_id])
+}
+
+model RecomputeRun {
+  id         String   @id @default(uuid()) @db.Uuid
+  started_at DateTime @default(now())
+  ended_at   DateTime?
+  status     String
+  error_text String?
+
+  @@index([started_at])
+  @@index([status])
+}
+
